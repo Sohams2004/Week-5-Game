@@ -8,8 +8,9 @@ using UnityEngine;
 
 public enum StartEvent
 {
-    idleing,
-    Walking,
+    idling,
+    walking,
+    lookingAround,
 
 
 }

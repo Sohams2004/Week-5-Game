@@ -8,12 +8,13 @@ using UnityEngine;
 
 public class movement : MonoBehaviour, IObserver
 {
+    Camera cam;
 
     [SerializeField] Subject subject;
     float xMovement, zMovement;
     Rigidbody rb;
-    Vector3 deceleration;
 
+    Vector3 deceleration;
     Vector3 initialVelocity;
     Vector3 finalVelocity = new Vector3(0, 0, 0);
     Vector3 moving;
@@ -22,15 +23,20 @@ public class movement : MonoBehaviour, IObserver
     [SerializeField] float speed = 10;
     [SerializeField] float speedLimit = 10;
 
+    float xMouse,yMouse;
+
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        cam = Camera.main;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
     }
     void Update()
     {
-
         initialVelocity = rb.velocity;
         //Math haha
         deceleration = (finalVelocity - initialVelocity / slowDowntime * Time.deltaTime);
@@ -51,11 +57,28 @@ public class movement : MonoBehaviour, IObserver
 
     public void OnNotify(StartEvent action)
     {
-        if (action == StartEvent.Walking)
+        if (action == StartEvent.walking)
         {
             Moving();
         }
+        else if (action == StartEvent.lookingAround)
+        {
+            Debug.Log(" LookingAround()");
+            LookingAround();
+        }
 
+    }
+
+    void LookingAround()
+    {
+        float y = Input.GetAxisRaw("Mouse Y") ;
+        float x = Input.GetAxisRaw("Mouse X") ;
+        xMouse -= y;
+        yMouse += x;
+        xMouse =Mathf.Clamp(xMouse,-90f,90f);
+
+        cam.transform.rotation= Quaternion.Euler(xMouse, yMouse, 0f);
+        transform.rotation= Quaternion.Euler(transform.rotation.x, yMouse, transform.rotation.z);
     }
 
     void LimitSpeed(float speed)

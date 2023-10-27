@@ -8,7 +8,8 @@ using UnityEngine;
 public class PlayerControl : Subject
 {
 
-    [SerializeField] private playerState playerState;
+    [SerializeField] private StartEvent startEvent;
+    playerState playerState;
     Rigidbody rb;
 
 
@@ -27,7 +28,7 @@ public class PlayerControl : Subject
                 //play aniamtion or something.
                 break;
             case playerState.walking:
-                NotifyObservers(StartEvent.Walking);
+                NotifyObservers(StartEvent.walking);
 
                 //send notifcation.
                 break;
@@ -36,6 +37,12 @@ public class PlayerControl : Subject
 
     private void PlayerInput()
     {
+
+        if(Input.mousePosition.y!=0 || Input.mousePosition.x != 0)
+        {
+            NotifyObservers(StartEvent.lookingAround);
+
+        }
         if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
         {
             playerState = playerState.walking;
