@@ -34,7 +34,7 @@ public class movement : MonoBehaviour, IObserver
         initialVelocity = rb.velocity;
         //Math haha
         deceleration = (finalVelocity - initialVelocity / slowDowntime * Time.deltaTime);
-
+        rb.velocity += deceleration;
     }
     void Moving()
     {
@@ -51,7 +51,7 @@ public class movement : MonoBehaviour, IObserver
 
     public void OnNotify(StartEvent action)
     {
-        if (action== StartEvent.Walking)
+        if (action == StartEvent.Walking)
         {
             Moving();
         }
