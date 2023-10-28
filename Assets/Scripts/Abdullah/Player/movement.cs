@@ -51,7 +51,6 @@ public class movement : MonoBehaviour, IObserver
 
         LimitSpeed(speedLimit);
 
-        Debug.Log("movement" + rb.velocity);
 
     }
 
@@ -63,7 +62,6 @@ public class movement : MonoBehaviour, IObserver
         }
         else if (action == StartEvent.lookingAround)
         {
-            Debug.Log(" LookingAround()");
             LookingAround();
         }
 
