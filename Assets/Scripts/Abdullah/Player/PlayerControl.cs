@@ -8,8 +8,8 @@ using UnityEngine;
 public class PlayerControl : Subject
 {
 
-    [SerializeField] private StartEvent startEvent;
-    playerState playerState;
+    StartEvent startEvent;
+    [SerializeField] private playerState playerState;
     Rigidbody rb;
 
 
@@ -29,8 +29,13 @@ public class PlayerControl : Subject
                 break;
             case playerState.walking:
                 NotifyObservers(StartEvent.walking);
-
+                
                 //send notifcation.
+                break;
+            case playerState.jumping:
+                NotifyObservers(StartEvent.jumping);
+                Debug.Log("Send Jump");
+                playerState = playerState.idling;
                 break;
         }
     }
@@ -52,7 +57,11 @@ public class PlayerControl : Subject
         {
             playerState = playerState.idling;
         }
+        if (Input.GetButtonDown("Jump"))
+        {
+            playerState = playerState.jumping;
 
+        }
 
     }
 

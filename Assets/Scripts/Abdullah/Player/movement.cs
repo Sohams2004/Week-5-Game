@@ -38,6 +38,7 @@ public class movement : MonoBehaviour, IObserver
     void Update()
     {
         initialVelocity = rb.velocity;
+
         //Math haha
         deceleration = (finalVelocity - initialVelocity / slowDowntime * Time.deltaTime);
         rb.velocity += deceleration;
