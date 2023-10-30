@@ -11,6 +11,6 @@ public enum StartEvent
     idling,
     walking,
     lookingAround,
-
+    jumping,
 
 }

@@ -3,7 +3,7 @@
     {
         idling,
         walking,
-
+        jumping,
 
 
     }
