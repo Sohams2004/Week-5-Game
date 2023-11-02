@@ -15,7 +15,7 @@ public class Follow_Player : MonoBehaviour, RobotObserver
     {
         //invert the mask
 
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.Find("Player");
     }
 
     public void OnNotify(RobotState action)

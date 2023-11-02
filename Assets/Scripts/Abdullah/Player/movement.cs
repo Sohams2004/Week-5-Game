@@ -1,7 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 /// <summary>
 /// Control player Movement and speed
 /// </summary>
@@ -9,10 +10,13 @@ using UnityEngine;
 public class movement : MonoBehaviour, IObserver
 {
     Camera cam;
-
+    float rotateX, rotateXNeg;
+    [SerializeField] Transform camPosition;
+    [SerializeField] Transform camRotate;
     [SerializeField] Subject subject;
     float xMovement, zMovement;
     Rigidbody rb;
+    Vector2 movements,lookAround;
 
     Vector3 deceleration;
     Vector3 initialVelocity;
@@ -30,9 +34,9 @@ public class movement : MonoBehaviour, IObserver
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        cam = Camera.main;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        cam = Camera.main;
 
     }
     void Update()
@@ -42,42 +46,47 @@ public class movement : MonoBehaviour, IObserver
         //Math haha
         deceleration = (finalVelocity - initialVelocity / slowDowntime * Time.deltaTime);
         rb.velocity += deceleration;
+
+    }
+
+    private void OnLookAround(InputValue value)
+    {
+        lookAround = value.Get<Vector2>();
+        rotateX += lookAround.x * 15 * Time.deltaTime;
+        Debug.Log("LookAround");
+
+        camRotate.rotation = Quaternion.Euler(camRotate.rotation.x, rotateX*10, camRotate.rotation.z);
+    }
+    private void OnMove(InputValue value)
+    {
+        movements = value.Get<Vector2>();
+        Debug.Log("OnMove");
+        Moving();
     }
     void Moving()
     {
-        zMovement = Input.GetAxisRaw("Horizontal");
-        xMovement = Input.GetAxisRaw("Vertical");
-        moving = transform.forward * xMovement + transform.right * zMovement;
-        rb.velocity += moving * 10 * (speed * Time.deltaTime);
+        xMovement = movements.y;
+        zMovement = movements.x;
 
+        moving = camPosition.forward * xMovement + camPosition.right * zMovement;
+        rb.velocity += moving * 10 * (speed * Time.deltaTime);
         LimitSpeed(speedLimit);
 
 
     }
 
+    
     public void OnNotify(StartEvent action)
     {
         if (action == StartEvent.walking)
         {
-            Moving();
+
         }
         else if (action == StartEvent.lookingAround)
         {
-            LookingAround();
+          //  LookingAround();
         }
 
-    }
-
-    void LookingAround()
-    {
-        float y = Input.GetAxisRaw("Mouse Y") ;
-        float x = Input.GetAxisRaw("Mouse X") ;
-        xMouse -= y;
-        yMouse += x;
-        xMouse =Mathf.Clamp(xMouse,-90f,90f);
-
-        cam.transform.rotation= Quaternion.Euler(xMouse, yMouse, 0f);
-        transform.rotation= Quaternion.Euler(transform.rotation.x, yMouse, transform.rotation.z);
     }
 
     void LimitSpeed(float speed)

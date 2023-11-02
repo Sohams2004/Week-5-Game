@@ -8,8 +8,9 @@ public class Door2open : MonoBehaviour
     [SerializeField] private PressurePlate3 pressurePlate3;
     [SerializeField] private PressurePlate4 pressurePlate4;
 
-    [SerializeField] private GameObject door_2;
 
+    [SerializeField] private GameObject door_2;
+    [SerializeField] GameObject easterEgg;
     void Door2Open()
     {
         if(pressurePlate2.pressurePlate2 == true)
@@ -18,6 +19,8 @@ public class Door2open : MonoBehaviour
             {
                 if(pressurePlate4.pressurePlate4 == true)
                     door_2.SetActive(false);
+                //after finishing the game :3
+                easterEgg.SetActive(true);
             }
         }
     }

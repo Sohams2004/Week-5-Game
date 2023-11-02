@@ -17,18 +17,28 @@ public class CommandRobot : Subject2
 
         robot = GameObject.Find("Robot");
     }
+    public void PingObservers(RobotState action)
+    {
+        NotifyObservers(action);
+
+    }
 
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        float pressingTrigger = Input.GetAxisRaw("XRI_Right_Trigger");
+        float pressingGrip = Input.GetAxisRaw("XRI_Right_Grip");
+
+
+
+        if (Input.GetKeyDown(KeyCode.Mouse1)|| pressingTrigger >=0.8 && pressingGrip>=0.8)
         {
             Debug.Log("Send Follow ME");
             isFollowingCommand = false;
             NotifyObservers(RobotState.followPlayer);
 
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0))
+        else if (Input.GetKeyDown(KeyCode.Mouse0)|| pressingGrip >= 0.8 && Input.GetButton("XRI_Right_SecondaryButton"))
         {
             Debug.Log("Send Command");
             isFollowingCommand = true;
