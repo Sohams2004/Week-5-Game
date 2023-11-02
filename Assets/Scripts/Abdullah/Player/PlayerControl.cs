@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 /// <summary>
 /// React to Player Inputs
 /// </summary>
@@ -42,13 +43,12 @@ public class PlayerControl : Subject
 
     private void PlayerInput()
     {
-
-        if(Input.mousePosition.y!=0 || Input.mousePosition.x != 0)
+        if (Input.mousePosition.y!=0 || Input.mousePosition.x != 0)
         {
             NotifyObservers(StartEvent.lookingAround);
 
         }
-        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+        if (Input.GetButton("XRI_DPad_Horizontal") || Input.GetButton("XRI_DPad_Vertical"))
         {
             playerState = playerState.walking;
 
@@ -57,11 +57,14 @@ public class PlayerControl : Subject
         {
             playerState = playerState.idling;
         }
-        if (Input.GetButtonDown("Jump"))
+
+        if (Input.GetButtonDown("XRI_Right_PrimaryButton"))
         {
             playerState = playerState.jumping;
 
         }
+
+
 
     }
 

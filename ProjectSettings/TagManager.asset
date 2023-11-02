@@ -13,12 +13,12 @@ TagManager:
   - Water
   - UI
   - Glass
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - XRI_LeftInteractor
+  - XRI_RightInteractor
+  - XRI_Interactable
+  - XRI_Teleportation
+  - XRI_PlayerLayer
+  - Robot
   - 
   - 
   - 
